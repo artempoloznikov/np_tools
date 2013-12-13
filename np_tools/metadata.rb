@@ -15,7 +15,7 @@ attribute "np_tools/short_hostname",
     " Example: myhost",
   :required => "required",
   :recipes => [
-    "rightscale::setup_hostname"
+    "np_tools::setup_hostname"
   ]
 
 attribute "np_tools/domain_name",
@@ -26,7 +26,7 @@ attribute "np_tools/domain_name",
   :required => "optional",
   :default => "",
   :recipes => [
-    "rightscale::setup_hostname"
+    "np_tools::setup_hostname"
   ]
 
 attribute "np_tools/search_suffix",
@@ -37,6 +37,6 @@ attribute "np_tools/search_suffix",
   :required => "optional",
   :default => "",
   :recipes => [
-    "rightscale::setup_hostname"
+    "np_tools::setup_hostname"
   ]
 

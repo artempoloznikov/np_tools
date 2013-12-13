@@ -5,8 +5,8 @@
 # Optional attributes
 
 # Short hostname
-default[:rightscale][:short_hostname] = ""
+default[:np_tools][:short_hostname] = ""
 # Domain name
-default[:rightscale][:domain_name] = ""
+default[:np_tools][:domain_name] = ""
 # Domain search suffix
-default[:rightscale][:search_suffix] = ""
+default[:np_tools][:search_suffix] = ""
