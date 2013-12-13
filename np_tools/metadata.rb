@@ -15,7 +15,7 @@ attribute "np_tools/short_hostname",
     " Example: myhost",
   :required => "required",
   :recipes => [
-    "np_tools::setup_hostname"
+    "np_tools::setup_hostname_from_tags"
   ]
 
 attribute "np_tools/domain_name",
