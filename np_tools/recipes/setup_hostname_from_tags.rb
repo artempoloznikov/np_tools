@@ -2,8 +2,6 @@
 # Cookbook Name:: np_tools
 #
 
-rightscale_marker
-
 # Set hostname from short or long (when domain_name set).
 if "#{node.np_tools.domain_name}" != ""
   hostname = "#{node.np_tools.short_hostname}.#{node.np_tools.domain_name}"
