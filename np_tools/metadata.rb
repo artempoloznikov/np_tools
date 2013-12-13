@@ -8,6 +8,9 @@ supports "centos"
 supports "redhat"
 supports "ubuntu"
 
+recipe "np_tools/setup_hostname",
+  "Sets the system hostname."
+
 attribute "np_tools/short_hostname",
   :display_name => "Short Hostname",
   :description =>
