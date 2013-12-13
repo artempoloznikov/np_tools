@@ -26,7 +26,7 @@ attribute "np_tools/domain_name",
   :required => "optional",
   :default => "",
   :recipes => [
-    "np_tools::setup_hostname"
+    "np_tools::setup_hostname_from_tags"
   ]
 
 attribute "np_tools/search_suffix",
@@ -37,6 +37,6 @@ attribute "np_tools/search_suffix",
   :required => "optional",
   :default => "",
   :recipes => [
-    "np_tools::setup_hostname"
+    "np_tools::setup_hostname_from_tags"
   ]
 
