@@ -8,7 +8,7 @@ supports "centos"
 supports "redhat"
 supports "ubuntu"
 
-recipe "np_tools/setup_hostname",
+recipe "np_tools/setup_hostname_from_tags",
   "Sets the system hostname."
 
 attribute "np_tools/short_hostname",
