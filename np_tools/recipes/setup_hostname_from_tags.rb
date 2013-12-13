@@ -2,14 +2,45 @@
 # Cookbook Name:: np_tools
 #
 
-# Set hostname from short or long (when domain_name set).
-if "#{node.np_tools.domain_name}" != ""
-  hostname = "#{node.np_tools.short_hostname}.#{node.np_tools.domain_name}"
-  hosts_list = "#{node.np_tools.short_hostname}.#{node.np_tools.domain_name} #{node.np_tools.short_hostname}"
-else
-  hostname = "#{node.np_tools.short_hostname}"
-  hosts_list = "#{node.np_tools.short_hostname}"
+require 'socket'
+
+def local_ip
+  orig, Socket.do_not_reverse_lookup = Socket.do_not_reverse_lookup, true # Turn off reverse DNS resolution temporarily.
+  UDPSocket.open do |s|
+    s.connect '64.233.187.99', 1
+    s.addr.last
+  end
+ensure
+  Socket.do_not_reverse_lookup = orig
 end
+
+def show_host_info
+  # Display current hostname values in log.
+  log "  Hostname: #{`hostname` == '' ? '<none>' : `hostname`}"
+  log "  Network node hostname: #{`uname -n` == '' ? '<none>' : `uname -n`}"
+  log "  Alias names of host: #{`hostname -a` == '' ? '<none>' : `hostname -a`}"
+  log "  Short host name (cut from first dot of hostname): #{`hostname -s` == '' ? '<none>' : `hostname -s`}"
+  log "  Domain of hostname: #{`domainname` == '' ? '<none>' : `domainname`}"
+  log "  FQDN of host: #{`hostname -f` == '' ? '<none>' : `hostname -f`}"
+end
+
+# Set hostname from short or long (when domain_name set).
+if "#{node.rightscale.domain_name}" != ""
+  hostname = "#{node.rightscale.short_hostname}.#{node.rightscale.domain_name}"
+  hosts_list = "#{node.rightscale.short_hostname}.#{node.rightscale.domain_name} #{node.rightscale.short_hostname}"
+else
+  hostname = "#{node.rightscale.short_hostname}"
+  hosts_list = "#{node.rightscale.short_hostname}"
+end
+
+# Show current host info.
+log "  Setting hostname for '#{hostname}'."
+log "  == Current host/node information =="
+show_host_info
+
+# Get node IP.
+node_ip = "#{local_ip}"
+log "  Node IP: #{node_ip}"
 
 # Update /etc/hosts
 log "  Configure /etc/hosts"
