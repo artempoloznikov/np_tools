@@ -43,3 +43,14 @@ attribute "np_tools/search_suffix",
     "np_tools::setup_hostname_from_tags"
   ]
 
+attribute "np_tools/static_hosts_tag",
+  :display_name => "Tags for group",
+  :description =>
+    "Tags for servers must be included as static records in /etc/hosts." +
+    " Example: loadbalancer:default=lb",
+  :required => "optional",
+  :default => "",
+  :recipes => [
+    "np_tools::setup_hostname_from_tags"
+  ]
+
