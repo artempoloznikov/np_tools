@@ -65,6 +65,73 @@ file "/etc/hostname" do
   action :create
 end
 
+# Update /etc/resolv.conf
+log "  Configure /etc/resolv.conf"
+nameserver=`cat /etc/resolv.conf  | grep -v '^#' | grep nameserver | awk '{print $2}'`
+if nameserver != ""
+  nameserver="nameserver #{nameserver}"
+end
+
+if "#{node.np_tools.domain_name}" != ""
+  domain = "domain #{node.np_tools.domain_name}"
+end
+
+if "#{node.np_tools.search_suffix}" != ""
+  search = "search #{node.np_tools.search_suffix}"
+end
+
+template "/etc/resolv.conf" do
+  source "resolv.conf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  variables(
+    :nameserver => nameserver,
+    :domain => domain,
+    :search => search
+  )
+end
+
+# Call hostname command.
+log "  Setting hostname."
+if platform?('centos', 'redhat')
+  bash "set_hostname" do
+    flags "-ex"
+    code <<-EOH
+      sed -i "s/HOSTNAME=.*/HOSTNAME=#{hostname}/" /etc/sysconfig/network
+      hostname #{hostname}
+    EOH
+  end
+else
+  bash "set_hostname" do
+    flags "-ex"
+    code <<-EOH
+      hostname #{hostname}
+    EOH
+  end
+end
+
+# Call domainname command.
+if "#{node.np_tools.domain_name}" != ""
+  log "  Running domainname"
+  bash "set_domainname" do
+    flags "-ex"
+    code <<-EOH
+      domainname #{node.np_tools.domain_name}
+    EOH
+  end
+end
+
+# Restart hostname services on appropriate platforms.
+if platform?('ubuntu')
+  log "  Starting hostname service."
+  service "hostname" do
+    service_name "hostname"
+    supports :restart => true, :status => true, :reload => true
+    action :restart
+  end
+end
+
 # rightlink commandline tools set tag with rs_tag
 log "  Setting hostname tag."
 bash "set_node_hostname_tag" do
