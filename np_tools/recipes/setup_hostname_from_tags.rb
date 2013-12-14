@@ -25,12 +25,12 @@ def show_host_info
 end
 
 # Set hostname from short or long (when domain_name set).
-if "#{node.rightscale.domain_name}" != ""
-  hostname = "#{node.rightscale.short_hostname}.#{node.rightscale.domain_name}"
-  hosts_list = "#{node.rightscale.short_hostname}.#{node.rightscale.domain_name} #{node.rightscale.short_hostname}"
+if "#{node.np_tools.domain_name}" != ""
+  hostname = "#{node.np_tools.short_hostname}.#{node.np_tools.domain_name}"
+  hosts_list = "#{node.np_tools.short_hostname}.#{node.np_tools.domain_name} #{node.np_tools.short_hostname}"
 else
-  hostname = "#{node.rightscale.short_hostname}"
-  hosts_list = "#{node.rightscale.short_hostname}"
+  hostname = "#{node.np_tools.short_hostname}"
+  hosts_list = "#{node.np_tools.short_hostname}"
 end
 
 # Show current host info.
