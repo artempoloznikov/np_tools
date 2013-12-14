@@ -156,19 +156,10 @@ ruby_block "show_new_host_info" do
 end
 
 # get tags 
-#np_tools/static_hosts_tag
 r = rightscale_server_collection :my_tags do
     tags "server:private_ip_0=#{node[:cloud][:private_ips][0]}"
     action :nothing
   end
 r.run_action(:load)
-
 Chef::Log.info "Founded #{node[:server_collection][:my_tags].inspect}"
 
-#node[:server_collection][:my_tags].each do |id, tags|
-#  tags.each do |t|
-#    if t =~ /mongodb_server:host/
-#      old_dns_name = t.split("=")[1]
-#    end 
-#  end
-#end
