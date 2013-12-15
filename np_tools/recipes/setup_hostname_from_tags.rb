@@ -156,10 +156,20 @@ ruby_block "show_new_host_info" do
 end
 
 # get tags 
+# If mongodb already installed, exit
 r = rightscale_server_collection :my_tags do
-    tags "server:private_ip_0=#{node[:cloud][:private_ips][0]}"
-    action :nothing
-  end
+  tags "server:private_ip_0=#{node[:cloud][:private_ips][0]}"
+  action :nothing
+end
 r.run_action(:load)
-Chef::Log.info "Founded #{node[:server_collection][:my_tags].inspect}"
+node[:server_collection][:my_tags].each do |id, tags|
+  tags.each do |t|
+  if t == "mongodb_server:active=true"
+    Chef::Log.info "MongoDB server already configured, exiting now.."
+       return
+    end
+  end
+end
+
+
 
