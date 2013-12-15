@@ -165,7 +165,7 @@ r.run_action(:load)
 node[:server_collection][:my_tags].each do |id, tags|
   tags.each do |t|
   if t == "loadbalancer:default=lb"
-    Chef::Log.info "TEST --- TEST --- TEST ======= #{t}"
+    Chef::Log.info "TEST --- TEST --- TEST ======= #{t}, #{id}, #{tags}"
        return
     end
   end
