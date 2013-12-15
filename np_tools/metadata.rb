@@ -54,3 +54,4 @@ attribute "np_tools/static_hosts_tag",
     "np_tools::setup_hostname_from_tags"
   ]
 
+depends "rightscale"
