@@ -164,8 +164,8 @@ end
 r.run_action(:load)
 node[:server_collection][:my_tags].each do |id, tags|
   tags.each do |t|
-  if t == "mongodb_server:active=true"
-    Chef::Log.info "MongoDB server already configured, exiting now.."
+  if t == "loadbalancer:default=lb"
+    Chef::Log.info "TEST --- TEST --- TEST ======= #{t}"
        return
     end
   end
