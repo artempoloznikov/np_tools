@@ -5,9 +5,12 @@
 127.0.0.1  localhost localhost.localdomain
 <%= @node_ip %>  <%= @hosts_list %>
 
-<% @static_hosts.each_pair do |k,v| %>
-  <%= k %> = <%= v %>
+<% if @static_hosts &&  @static_hosts.size > 0 %>
+  <% @other_opts.each_pair do |k,v| %>
+    <%= k %> = <%= v %>
+  <% end %>
 <% end %>
+
 
 # The following lines are desirable for IPv6 capable hosts
 ::1     localhost ip6-localhost ip6-loopback
