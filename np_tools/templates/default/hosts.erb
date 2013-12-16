@@ -5,10 +5,8 @@
 127.0.0.1  localhost localhost.localdomain
 <%= @node_ip %>  <%= @hosts_list %>
 
-<% if @static_hosts > 0 %>
-  <% @static_hosts.each_pair do |k,v| %>
-    <%= k %> = <%= v %>
-  <% end %>
+<% @static_hosts.each_pair do |k,v| %>
+  <%= k %> = <%= v %>
 <% end %>
 
 # The following lines are desirable for IPv6 capable hosts
