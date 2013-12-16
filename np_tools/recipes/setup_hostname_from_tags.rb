@@ -42,6 +42,25 @@ show_host_info
 node_ip = "#{local_ip}"
 log "  Node IP: #{node_ip}"
 
+r = rightscale_server_collection :my_tags do
+#  tags "server:private_ip_0=#{node[:cloud][:private_ips][0]}"
+  tags "loadbalancer:default=lb"
+  action :nothing
+end
+
+r.run_action(:load)
+  Chef::Log.info "Founded #{node[:server_collection][:my_tags].inspect}"
+
+static_hosts = []
+node[:server_collection][:my_tags].each do |id, tags|
+  private_ip_0 = tags.detect{ |t| t =~ /server:private_ip_0/ }.split("=")[1]
+  public_ip_0 = tags.detect{ |t| t =~ /server:public_ip_0/ }.split("=")[1]
+  node_hostname = tags.detect{ |t| t =~ /node:hostname/ }.split("=")[1]
+  static_hosts << "#{private_ip_0} #{node_hostname}"
+end
+
+Chef::Log.info "===Static hosts #{static_hosts}==="
+
 # Update /etc/hosts
 log "  Configure /etc/hosts"
 template "/etc/hosts" do
@@ -51,7 +70,8 @@ template "/etc/hosts" do
   mode "0644"
   variables(
     :node_ip => node_ip,
-    :hosts_list => hosts_list
+    :hosts_list => hosts_list,
+    :static_hosts => static_hosts
   )
 end
 
@@ -172,21 +192,3 @@ end
 #  end
 #end
 
-r = rightscale_server_collection :my_tags do
-#  tags "server:private_ip_0=#{node[:cloud][:private_ips][0]}"
-  tags "loadbalancer:default=lb"
-  action :nothing
-end
-
-r.run_action(:load)
-  Chef::Log.info "Founded #{node[:server_collection][:my_tags].inspect}"
-
-static_hosts = ""
-node[:server_collection][:my_tags].each do |id, tags|
-  private_ip_0 = tags.detect{ |t| t =~ /server:private_ip_0/ }.split("=")[1]
-  public_ip_0 = tags.detect{ |t| t =~ /server:public_ip_0/ }.split("=")[1]
-  node_hostname = tags.detect{ |t| t =~ /node:hostname/ }.split("=")[1]
-  static_hosts << "#{private_ip_0} #{node_hostname}"
-end
-
-Chef::Log.info "Static hosts #{static_hosts}"
