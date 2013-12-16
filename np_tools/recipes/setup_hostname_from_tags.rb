@@ -191,3 +191,4 @@ end
 
 Chef::Log.info "Static hosts #{static_hosts}"
 
+
