@@ -172,8 +172,13 @@ end
 #  end
 #end
 
+r = rightscale_server_collection :my_tags do
+  tags "server:private_ip_0=#{node[:cloud][:private_ips][0]}"
+  action :nothing
+end
+
 static_hosts = []
-node[:server_collection][:config_servers].each do |id, tags|
+node[:server_collection][:my_tags].each do |id, tags|
   private_ip_0 = tags.detect{ |t| t =~ /server:private_ip_0/ }.split("=")[1]
   public_ip_0 = tags.detect{ |t| t =~ /server:public_ip_0/ }.split("=")[1]
   node_hostname = tags.detect{ |t| t =~ /node:hostname/ }.split("=")[1]
