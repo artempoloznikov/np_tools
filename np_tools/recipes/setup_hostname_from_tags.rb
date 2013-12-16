@@ -56,8 +56,8 @@ node[:server_collection][:my_tags].each do |id, tags|
   private_ip_0 = tags.detect{ |t| t =~ /server:private_ip_0/ }.split("=")[1]
   public_ip_0 = tags.detect{ |t| t =~ /server:public_ip_0/ }.split("=")[1]
   node_hostname = tags.detect{ |t| t =~ /node:hostname/ }.split("=")[1]
-  node_short_name = #{node_hostname}.split(".")[0]
-  static_hosts << "#{private_ip_0} #{node_short_name} #{node_hostname}\r\n"
+  node_short_name = node_hostname.split(".")[0]
+  static_hosts << "#{private_ip_0} #{node_short_name} #{node_hostname}\n"
 end
 
 Chef::Log.info "===Static hosts #{static_hosts}==="
