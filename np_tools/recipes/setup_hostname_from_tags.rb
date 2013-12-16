@@ -44,7 +44,7 @@ log "  Node IP: #{node_ip}"
 
 r = rightscale_server_collection :my_tags do
 #  tags "server:private_ip_0=#{node[:cloud][:private_ips][0]}"
-  tags "loadbalancer:default=lb"
+  tags "#{node.np_tools.static_hosts_tag}"
   action :nothing
 end
 
