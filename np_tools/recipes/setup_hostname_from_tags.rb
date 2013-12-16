@@ -161,15 +161,22 @@ end
 #  tags "server:private_ip_0=#{node[:cloud][:private_ips][0]}"
 #  action :nothing
 #end
+
 #r.run_action(:load)
-node[:server_collection][:my_tags].each do |id, tags|
-  tags.each do |t|
-  if t == "loadbalancer:default=lb"
-    Chef::Log.info "TEST --- TEST --- TEST ======= #{t}, #{id}, #{tags}"
-       return
-    end
-  end
+#node[:server_collection][:my_tags].each do |id, tags|
+#  tags.each do |t|
+#  if t == "loadbalancer:default=lb"
+#    Chef::Log.info "TEST --- TEST --- TEST ======= #{t}, #{id}, #{tags}"
+#       return
+#    end
+#  end
+#end
+
+static_hosts = []
+node[:server_collection][:config_servers].each do |id, tags|
+  private_ip_0 = tags.detect{ |t| t =~ /server:private_ip_0/ }.split("=")[1]
+  public_ip_0 = tags.detect{ |t| t =~ /server:public_ip_0/ }.split("=")[1]
+  node_hostname = tags.detect{ |t| t =~ /node:hostname/ }.split("=")[1]
+  static_hosts << "#{private_ip_0} #{node_hostname}"
 end
-
-
 
