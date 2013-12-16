@@ -157,11 +157,11 @@ end
 
 # get tags 
 # If mongodb already installed, exit
-r = rightscale_server_collection :my_tags do
-  tags "server:private_ip_0=#{node[:cloud][:private_ips][0]}"
-  action :nothing
-end
-r.run_action(:load)
+#r = rightscale_server_collection :my_tags do
+#  tags "server:private_ip_0=#{node[:cloud][:private_ips][0]}"
+#  action :nothing
+#end
+#r.run_action(:load)
 node[:server_collection][:my_tags].each do |id, tags|
   tags.each do |t|
   if t == "loadbalancer:default=lb"
