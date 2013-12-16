@@ -188,3 +188,5 @@ node[:server_collection][:my_tags].each do |id, tags|
   static_hosts << "#{private_ip_0} #{node_hostname}"
 end
 
+Chef::Log.info "Static hosts #{static_hosts}"
+
