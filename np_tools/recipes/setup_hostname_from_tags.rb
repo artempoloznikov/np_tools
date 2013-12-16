@@ -173,7 +173,8 @@ end
 #end
 
 r = rightscale_server_collection :my_tags do
-  tags "server:private_ip_0=#{node[:cloud][:private_ips][0]}"
+#  tags "server:private_ip_0=#{node[:cloud][:private_ips][0]}"
+  tagd "loadbalancer:default=lb"
   action :nothing
 end
 
