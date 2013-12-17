@@ -57,10 +57,12 @@ node[:server_collection][:my_tags].each do |id, tags|
   public_ip_0 = tags.detect{ |t| t =~ /server:public_ip_0/ }.split("=")[1]
   node_hostname = tags.detect{ |t| t =~ /node:hostname/ }.split("=")[1]
   node_short_name = node_hostname.split(".")[0]
-  if node[:np_tools][:type_of_ip] = "private"
-    static_hosts << "#{private_ip_0} #{node_short_name} #{node_hostname}\n"
-  else
-    static_hosts << "#{public_ip_0} #{node_short_name} #{node_hostname}\n"
+  if #{node_hostname} != #{hostname}
+    if node[:np_tools][:type_of_ip] = "private"
+      static_hosts << "#{private_ip_0} #{node_short_name} #{node_hostname}\n"
+    else
+      static_hosts << "#{public_ip_0} #{node_short_name} #{node_hostname}\n"
+    end
   end
 end
 

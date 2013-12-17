@@ -60,7 +60,7 @@ attribute "np_tools/type_of_ip",
   :display_name => "Type of IP",
   :description =>
     "Type of IP address, (private or public) " +
-    " Default = internal",
+    " Default = private",
   :required => "optional",
   :choice => [ "private" , "public" ],
   :default => "private",
