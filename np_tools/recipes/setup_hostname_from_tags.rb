@@ -61,7 +61,7 @@ node[:server_collection][:my_tags].each do |id, tags|
   if "#{node_hostname}" != "#{hostname}"
     Chef::Log.info "node_hostname = #{node_hostname} | hostname = #{hostname}"
     Chef::Log.info "+++++++++++++++++++++++++type_of_ip = #{node[:np_tools][:type_of_ip]}++++++++++++++++++++++++++++++++++"
-    if "#{node[:np_tools][:type_of_ip]}" = "private"
+    if #{node[:np_tools][:type_of_ip]} = "private"
       static_hosts << "#{private_ip_0} #{node_short_name} #{node_hostname}\n"
       Chef::Log.info "******************************private*******************************"
     else
