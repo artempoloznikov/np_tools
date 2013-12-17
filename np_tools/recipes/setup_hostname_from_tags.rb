@@ -58,11 +58,14 @@ node[:server_collection][:my_tags].each do |id, tags|
   node_hostname = tags.detect{ |t| t =~ /node:hostname/ }.split("=")[1]
   node_short_name = node_hostname.split(".")[0]
   Chef::Log.info "===|||=== Static hosts:\n#{static_hosts}===|||==="
-  if #{node_hostname} != #{hostname}
+  if "#{node_hostname}" != "#{hostname}"
+    Chef::Log.info "node_hostname = #{node_hostname} | hostname = #{hostname}"
     if #{node[:np_tools][:type_of_ip]} = "private"
       static_hosts << "#{private_ip_0} #{node_short_name} #{node_hostname}\n"
+      Chef::Log.info "******************************private*******************************"
     else
       static_hosts << "#{public_ip_0} #{node_short_name} #{node_hostname}\n"
+      Chef::Log.info "++++++++++++++++++++++++++++++public********************************"
     end
   end
 end
