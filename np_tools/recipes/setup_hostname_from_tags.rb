@@ -57,7 +57,11 @@ node[:server_collection][:my_tags].each do |id, tags|
   public_ip_0 = tags.detect{ |t| t =~ /server:public_ip_0/ }.split("=")[1]
   node_hostname = tags.detect{ |t| t =~ /node:hostname/ }.split("=")[1]
   node_short_name = node_hostname.split(".")[0]
-  static_hosts << "#{private_ip_0} #{node_short_name} #{node_hostname}\n"
+  if node[:np_tools][:type_of_ip] = "private"
+    static_hosts << "#{private_ip_0} #{node_short_name} #{node_hostname}\n"
+  else
+    static_hosts << "#{public_ip_0} #{node_short_name} #{node_hostname}\n"
+  end
 end
 
 Chef::Log.info "===Static hosts #{static_hosts}==="
@@ -176,20 +180,4 @@ ruby_block "show_new_host_info" do
   end
 end
 
-# get tags 
-# If mongodb already installed, exit
-#r = rightscale_server_collection :my_tags do
-#  tags "server:private_ip_0=#{node[:cloud][:private_ips][0]}"
-#  action :nothing
-#end
-
-#r.run_action(:load)
-#node[:server_collection][:my_tags].each do |id, tags|
-#  tags.each do |t|
-#  if t == "loadbalancer:default=lb"
-#    Chef::Log.info "TEST --- TEST --- TEST ======= #{t}, #{id}, #{tags}"
-#       return
-#    end
-#  end
-#end
 

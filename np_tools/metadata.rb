@@ -8,6 +8,8 @@ supports "centos"
 supports "redhat"
 supports "ubuntu"
 
+depends "rightscale"
+
 recipe "np_tools::setup_hostname_from_tags",
   "Sets the system hostname"
 
@@ -54,4 +56,14 @@ attribute "np_tools/static_hosts_tag",
     "np_tools::setup_hostname_from_tags"
   ]
 
-depends "rightscale"
+attribute "np_tools/type_of_ip",
+  :display_name => "Type of IP",
+  :description =>
+    "Type of IP address, (private or public) " +
+    " Default = internal",
+  :required => "optional",
+  :choice => [ "private" , "public" ],
+  :default => "private",
+  :recipes => [
+    "np_tools::setup_hostname_from_tags"
+  ]
