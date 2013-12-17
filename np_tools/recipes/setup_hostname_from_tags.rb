@@ -43,7 +43,6 @@ node_ip = "#{local_ip}"
 log "  Node IP: #{node_ip}"
 
 r = rightscale_server_collection :my_tags do
-#  tags "server:private_ip_0=#{node[:cloud][:private_ips][0]}"
   tags "#{node.np_tools.static_hosts_tag}"
   action :nothing
 end
@@ -61,18 +60,14 @@ node[:server_collection][:my_tags].each do |id, tags|
   node_short_name = node_hostname.split(".")[0]
   Chef::Log.info "===|||=== Static hosts:\n#{static_hosts}===|||==="
   if "#{node_hostname}" != "#{hostname}"
-    Chef::Log.info "node_hostname = #{node_hostname} | hostname = #{hostname}"
-    Chef::Log.info "++++++++++++++++++++++++type_of_ip = #{node[:np_tools][:type_of_ip]} - private_ip_0 = #{private_ip_0} public_ip_0 = #{public_ip_0}++++++++++++++++++++++++++++++++++"
     if #{node[:np_tools][:type_of_ip]} == "private"
       static_hosts << "#{private_ip_0} #{node_short_name} #{node_hostname}\n"
-      Chef::Log.info "******************************private*******************************"
     else
       static_hosts << "#{public_ip_0} #{node_short_name} #{node_hostname}\n"
-      Chef::Log.info "++++++++++++++++++++++++++++++public********************************"
     end
   end
 end
-Chef::Log.info "===|||=== Static hosts:\n#{static_hosts}===|||==="
+
 # Update /etc/hosts
 log "  Configure /etc/hosts"
 template "/etc/hosts" do
