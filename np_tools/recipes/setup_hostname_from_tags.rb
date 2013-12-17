@@ -51,6 +51,8 @@ end
 r.run_action(:load)
   Chef::Log.info "Founded #{node[:server_collection][:my_tags].inspect}"
 
+type_of_ip = #{node[:np_tools][:type_of_ip]}
+
 static_hosts = ""
 node[:server_collection][:my_tags].each do |id, tags|
   private_ip_0 = tags.detect{ |t| t =~ /server:private_ip_0/ }.split("=")[1]
@@ -60,8 +62,8 @@ node[:server_collection][:my_tags].each do |id, tags|
   Chef::Log.info "===|||=== Static hosts:\n#{static_hosts}===|||==="
   if "#{node_hostname}" != "#{hostname}"
     Chef::Log.info "node_hostname = #{node_hostname} | hostname = #{hostname}"
-    Chef::Log.info "+++++++++++++++++++++++++type_of_ip = #{node[:np_tools][:type_of_ip]}++++++++++++++++++++++++++++++++++"
-    if #{node[:np_tools][:type_of_ip]} = "private"
+    Chef::Log.info "+++++++++++++++++++++++++type_of_ip = #{node[:np_tools][:type_of_ip]} - #{type_of_ip}++++++++++++++++++++++++++++++++++"
+    if "#{type_of_ip}" = "private"
       static_hosts << "#{private_ip_0} #{node_short_name} #{node_hostname}\n"
       Chef::Log.info "******************************private*******************************"
     else
