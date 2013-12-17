@@ -62,7 +62,7 @@ node[:server_collection][:my_tags].each do |id, tags|
   Chef::Log.info "===|||=== Static hosts:\n#{static_hosts}===|||==="
   if "#{node_hostname}" != "#{hostname}"
     Chef::Log.info "node_hostname = #{node_hostname} | hostname = #{hostname}"
-    Chef::Log.info "+++++++++++++++++++++++++type_of_ip = #{node[:np_tools][:type_of_ip]} - #{type_of_ip}++++++++++++++++++++++++++++++++++"
+    Chef::Log.info "+++++++++++++++++++++++++type_of_ip = #{node[:np_tools][:type_of_ip]} - #{@type_of_ip}++++++++++++++++++++++++++++++++++"
     if #{type_of_ip} != "public"
       static_hosts << "#{private_ip_0} #{node_short_name} #{node_hostname}\n"
       Chef::Log.info "******************************private*******************************"
@@ -72,9 +72,7 @@ node[:server_collection][:my_tags].each do |id, tags|
     end
   end
 end
-
 Chef::Log.info "===|||=== Static hosts:\n#{static_hosts}===|||==="
-
 # Update /etc/hosts
 log "  Configure /etc/hosts"
 template "/etc/hosts" do
