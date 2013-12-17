@@ -51,7 +51,7 @@ end
 r.run_action(:load)
   Chef::Log.info "Founded #{node[:server_collection][:my_tags].inspect}"
 
-static_hosts = []
+static_hosts = ""
 node[:server_collection][:my_tags].each do |id, tags|
   private_ip_0 = tags.detect{ |t| t =~ /server:private_ip_0/ }.split("=")[1]
   public_ip_0 = tags.detect{ |t| t =~ /server:public_ip_0/ }.split("=")[1]
@@ -66,7 +66,7 @@ node[:server_collection][:my_tags].each do |id, tags|
   end
 end
 
-Chef::Log.info "===Static hosts #{static_hosts}==="
+Chef::Log.info "===|||=== Static hosts #{static_hosts} ===|||==="
 
 # Update /etc/hosts
 log "  Configure /etc/hosts"
@@ -181,5 +181,3 @@ ruby_block "show_new_host_info" do
     Chef::Log.info("  FQDN of host: #{`hostname -f` == '' ? '<none>' : `hostname -f`}")
   end
 end
-
-
